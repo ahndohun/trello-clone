@@ -18,31 +18,31 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       loading: false,
-      apiRes: ""
+      apiRes: "",
+      error: ""
     };
   },
   methods: {
     fetchData() {
       this.loading = true;
 
-      const req = new XMLHttpRequest();
-
-      req.open("GET", "http://localhost:3000/health");
-
-      req.send();
-
-      req.addEventListener("load", () => {
-        this.loading = false;
-        this.apiRes = {
-          status: req.status,
-          statusText: req.statusText,
-          response: JSON.parse(req.response)
-        };
-      });
+      axios
+        .get("http://localhost:3000/hgealth")
+        .then(res => {
+          this.apiRes = res.data;
+        })
+        .catch(res => {
+          this.error = res.response.data;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
   },
   created() {
