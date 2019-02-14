@@ -3,7 +3,7 @@
     <div>board list:
       <div v-if="loading">로딩중</div>
       <div v-else>
-        {{ apiRes }}
+        <div v-for="b in boards" :key="b.id">{{ b }}</div>
         <ul>
           <li>
             <router-link to="/board/1">board1</router-link>
@@ -18,27 +18,22 @@
 </template>
 
 <script>
-import axios from "axios";
+import { board } from "../api";
 
 export default {
   data() {
     return {
       loading: false,
-      apiRes: "",
-      error: ""
+      boards: []
     };
   },
   methods: {
     fetchData() {
       this.loading = true;
-
-      axios
-        .get("http://localhost:3000/hgealth")
-        .then(res => {
-          this.apiRes = res.data;
-        })
-        .catch(res => {
-          this.error = res.response.data;
+      board
+        .fetch()
+        .then(data => {
+          this.boards = data;
         })
         .finally(() => {
           this.loading = false;
