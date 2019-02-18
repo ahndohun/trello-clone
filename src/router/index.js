@@ -22,10 +22,10 @@ const router = new VueRouter({
     {
       path: "/board/:bid",
       component: Board,
+      beforeEnter: requireAuth,
       children: [
         { path: "card/:cid", component: Card, beforeEnter: requireAuth }
-      ],
-      beforeEnter: requireAuth
+      ]
     },
     { path: "*", component: NotFound }
   ]
