@@ -6,6 +6,9 @@ const UNAUTHORIZED = 401;
 const onUnauthororized = () => {
   router.push(`/login?rPath=${encodeURIComponent(location.pathname)}`);
 };
+const { token } = localStorage;
+
+if (token) setAuthInHeader(token);
 
 const request = (method, url, data) => {
   return axios({
